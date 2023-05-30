@@ -1,5 +1,7 @@
 
 
+using Microsoft.ML;
+using Microsoft.ML.Transforms.Image;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -8,6 +10,7 @@ using winformkeys.Data;
 using winformkeys.Models;
 using winformkeys.TextToSF4;
 using winformkeys.Utilities;
+
 
 namespace winformkeys
 {
@@ -26,7 +29,7 @@ namespace winformkeys
        
         private string imageLocation = string.Format(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Screenshot.png");
 
-
+        private PredictionEngine<WineInput, WinePredictions> _predictionEngine;
         
         private List<Character> characters = new List<Character>();
         public Form1()
@@ -34,7 +37,22 @@ namespace winformkeys
             InitializeComponent();
             characters = datainit.DataInitializeCharacters();
 
-           // var context = new MLContext();
+            var context = new MLContext();
+
+            var emptyData = new List<WineInput>();
+
+            //var data = context.Data.LoadFromEnumerable(emptyData);
+
+            var pipeline = context.Transforms.ResizeImages(resizing: ImageResizingEstimator.ResizingKind.Fill,
+                outputColumnName: "data", imageWidth: ImageSettings.imageWidth, imageHeight: ImageSettings.imageHeight,
+                inputColumnName: nameof(WineInput.Image))
+                .Append(context.Transforms.ExtractPixels(outputColumnName: "data"))
+                .Append(context.Transforms.ApplyOnnxModel(modelFile: "./MLModel/model.onnx", outputColumnName: "classLabel", inputColumnName: "data"));
+
+            //var model = pipeline.Fit(data);
+
+            //_predictionEngine = context.Model.CreatePredictionEngine<WineInput, WinePredictions>(model);
+
 
             using (var ctx = new FighterContext())
             {
@@ -60,7 +78,7 @@ namespace winformkeys
 
 
 
-        private string? input;
+        private string input;
         Process process = Process.GetProcessById(GetSFIVProcess());
         Process processMain = Process.GetCurrentProcess();
 
@@ -74,9 +92,9 @@ namespace winformkeys
                 IntPtr windowHandle = process.MainWindowHandle;
 
 
-                PredictFacingRight();
+                //PredictFacingRight();
 
-
+                
 
                 string strength = "";
 
@@ -86,7 +104,7 @@ namespace winformkeys
 
                 if (inputToSplit.Item2.ToLower() != "")
                 {
-
+                    
                     strength = inputToSplit.Item2.ToLower();
 
                 }
@@ -103,16 +121,16 @@ namespace winformkeys
                 {
                     if (s.SpecialMoveName.ToLower() == move)
                         switchcase = s.SpecialMoveInput;
-
+                    
                 }
 
                 switch (switchcase) //case standard // choose strength
                 {
                     case "QCForwardPunch":
-
+                        
                         SetForegroundWindow(windowHandle);
-                        specials.QCForwardPunch(strength, facingRight);
-                        SetForegroundWindow(windowHandleMain);
+                        specials.QCForwardPunch(strength, facingRight);                       
+                        SetForegroundWindow(windowHandleMain);                                                
                         break;
 
                     case "DPForwardPunch":
@@ -128,16 +146,16 @@ namespace winformkeys
                         break;
 
 
-                        SendKeys.SendWait("{ENTER}");
-                        Thread.Sleep(500);
+                        
 
+                    }
+                   
+                
+                SetForegroundWindow(windowHandleMain);
+                listBox1.Items.Add(move + " " + strength);
 
-
-                        SetForegroundWindow(windowHandleMain);
-                        listBox1.Items.Add(move + " " + strength);
-
-                        textBox1.Clear();
-                }
+                textBox1.Clear();
+            
             }
         }
 
@@ -161,7 +179,9 @@ namespace winformkeys
             i.ScreenGrab();
             var image = (Bitmap)Image.FromFile(imageLocation);
 
+            var prediction = _predictionEngine.Predict(new WineInput { Image = image });
 
+            var labels = File.ReadLines("./MLModels/labes.txt");
 
 
             
