@@ -155,7 +155,16 @@ namespace winformkeys
                 listBox1.Items.Add(move + " " + strength);
 
                 textBox1.Clear();
-            
+            }
+
+=========
+
+
+                        SetForegroundWindow(windowHandleMain);
+                        listBox1.Items.Add(move + " " + strength);
+
+                        textBox1.Clear();
+                }
             }
         }
 
