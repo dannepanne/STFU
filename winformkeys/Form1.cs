@@ -148,15 +148,17 @@ namespace winformkeys
 
                         
 
-                    }
+                }
                    
                 
                 SetForegroundWindow(windowHandleMain);
                 listBox1.Items.Add(move + " " + strength);
 
                 textBox1.Clear();
-            
             }
+
+                
+            
         }
 
         private Tuple<string, string> StringSplitter(string input)
