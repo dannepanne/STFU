@@ -9,6 +9,7 @@ using winformkeys.Models;
 using winformkeys.TextToSF4;
 using winformkeys.Utilities;
 
+
 namespace winformkeys
 {
 
@@ -76,7 +77,7 @@ namespace winformkeys
 
                 PredictFacingRight();
 
-
+                
 
                 string strength = "";
 
@@ -86,7 +87,7 @@ namespace winformkeys
 
                 if (inputToSplit.Item2.ToLower() != "")
                 {
-
+                    
                     strength = inputToSplit.Item2.ToLower();
 
                 }
@@ -103,16 +104,16 @@ namespace winformkeys
                 {
                     if (s.SpecialMoveName.ToLower() == move)
                         switchcase = s.SpecialMoveInput;
-
+                    
                 }
 
                 switch (switchcase) //case standard // choose strength
                 {
                     case "QCForwardPunch":
-
+                        
                         SetForegroundWindow(windowHandle);
-                        specials.QCForwardPunch(strength, facingRight);
-                        SetForegroundWindow(windowHandleMain);
+                        specials.QCForwardPunch(strength, facingRight);                       
+                        SetForegroundWindow(windowHandleMain);                                                
                         break;
 
                     case "DPForwardPunch":
@@ -131,13 +132,92 @@ namespace winformkeys
                         SendKeys.SendWait("{ENTER}");
                         Thread.Sleep(500);
 
+                    }
+                    else if (input == "fireball")
+                    {
+
+                        IntPtr windowHandle = process.MainWindowHandle;
+                        SetForegroundWindow(windowHandle);
 
 
-                        SetForegroundWindow(windowHandleMain);
-                        listBox1.Items.Add(move + " " + strength);
+                        Thread.Sleep(100);
 
-                        textBox1.Clear();
-                }
+                        specials.QCForwardPunch("hard", facingRight);
+
+                        Thread.Sleep(500);
+
+                    }
+                    else if (input == "dragonpunch")
+                    {
+
+                        IntPtr windowHandle = process.MainWindowHandle;
+                        SetForegroundWindow(windowHandle);
+                        Thread.Sleep(100);
+
+
+
+                        Thread.Sleep(500);
+
+                    }
+                    else if (input == "hardkick")
+                    {
+
+
+
+                        IntPtr windowHandle = process.MainWindowHandle;
+                        SetForegroundWindow(windowHandle);
+                        Thread.Sleep(500);
+
+
+                        SendKeys.SendWait(moves.HardKick());
+                        Thread.Sleep(500);
+
+                    }
+                    else if (input == "jump")
+                    {
+
+                        IntPtr windowHandle = process.MainWindowHandle;
+                        SetForegroundWindow(windowHandle);
+                        Thread.Sleep(500);
+
+                        SendKeys.SendWait(moves.DiaginalUpRight());
+
+                        Thread.Sleep(500);
+
+                    }
+                    else if (input == "down")
+                    {
+
+
+
+                        IntPtr windowHandle = process.MainWindowHandle;
+                        SetForegroundWindow(windowHandle);
+                        Thread.Sleep(500);
+
+                        SendKeys.SendWait(moves.Down());
+
+                        Thread.Sleep(500);
+
+                    }
+                    else if (input == "backdash")
+                    {
+
+                        IntPtr windowHandle = process.MainWindowHandle;
+                        SetForegroundWindow(windowHandle);
+                        Thread.Sleep(500);
+
+                        SendKeys.SendWait("{LEFT 3}");
+
+                        Thread.Sleep(500);
+
+                    //}
+                //}
+                
+                SetForegroundWindow(windowHandleMain);
+                listBox1.Items.Add(move + " " + strength);
+
+                textBox1.Clear();
+            }
             }
         }
 
