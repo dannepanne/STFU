@@ -17,6 +17,15 @@ HARD KICK -> D
 
 Only the character Ryu is working and only special attacks at the moment. Movement and normals are precent but haven't been given a text input yet.
 
+Run Ultra Street Fighter 4 in windowed mode, change controls under options in-game. Start STFU.
+Working text commands to attacks so far: 
+
+*hadoken
+*shoryuken
+*tatsumaki
+
+
+
 TODO:
 Add selectable difficulty
 Migrate to newer framework
