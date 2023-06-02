@@ -157,8 +157,6 @@ namespace winformkeys
                 textBox1.Clear();
             }
 
-                
-            
         }
 
         private Tuple<string, string> StringSplitter(string input)
