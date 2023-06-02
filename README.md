@@ -24,6 +24,7 @@ Working text commands to attacks so far:
 "shoryuken"
 "tatsumaki"
 
+There is probably a need to add-migration and update database in package manager console. The app doesn't retrieve anything from the db yet though.
 
 
 TODO:
