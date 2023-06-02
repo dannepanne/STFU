@@ -20,9 +20,9 @@ Only the character Ryu is working and only special attacks at the moment. Moveme
 Run Ultra Street Fighter 4 in windowed mode, change controls under options in-game. Start STFU.
 Working text commands to attacks so far: 
 
-hadoken
-shoryuken
-tatsumaki
+"hadoken"
+"shoryuken"
+"tatsumaki"
 
 
 
